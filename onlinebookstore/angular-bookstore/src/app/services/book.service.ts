@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Book } from '../common/book';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -12,17 +11,18 @@ export class BookService {
 
   private baseUrl = 'http://localhost:8080/api/v1/books';
 
-  constructor(
-    private httpClient: HttpClient
-  ) { }
+  constructor(private httpClient: HttpClient) { }
 
-  getBooks(theCategoryId: number): Observable<Book[]> {
+  getBooks(theCategoryId: number): Observable<Book[]>{
     const searchUrl = `${this.baseUrl}/search/category_id?id=${theCategoryId}`;
-    return this.httpClient.get<GetResponseBooks>(searchUrl).pipe(map(response => response._embedded.books));
+    return this.httpClient.get<GetResponseBooks>(searchUrl).pipe(
+      map(response => response._embedded.books)
+    );
   }
 }
 
-interface GetResponseBooks {
+interface GetResponseBooks{
   _embedded: {
-    books: Book[]; };
+    books: Book[];
+  };
 }
